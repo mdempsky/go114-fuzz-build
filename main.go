@@ -5,6 +5,7 @@ package main
 
 import (
 	"flag"
+	"go/token"
 	"io/ioutil"
 	"log"
 	"os"
@@ -28,8 +29,8 @@ var (
 func main() {
 	flag.Parse()
 
-	if *flagFunc == "" {
-		log.Fatal("-func must be specified")
+	if !token.IsIdentifier(*flagFunc) || !token.IsExported(*flagFunc) {
+		log.Fatal("-func must be an exported identifier")
 	}
 
 	tags := "gofuzz,gofuzz_libfuzzer"
