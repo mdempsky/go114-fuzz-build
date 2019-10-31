@@ -33,7 +33,7 @@ func main() {
 		log.Fatal("-func must be an exported identifier")
 	}
 
-	tags := "gofuzz,gofuzz_libfuzzer"
+	tags := "gofuzz,gofuzz_libfuzzer,libfuzzer"
 	if *flagTags != "" {
 		tags += "," + *flagTags
 	}
