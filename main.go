@@ -1,6 +1,3 @@
-// Go114-fuzz-build is a drop-in replacement for
-// github.com/dvyukov/go-fuzz-build's -libfuzzer build mode, but uses
-// cmd/compile's native libfuzzer instrumentation.
 package main
 
 import (
