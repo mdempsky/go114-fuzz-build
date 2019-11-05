@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	flagFunc = flag.String("func", "", "fuzzer entry point")
+	flagFunc = flag.String("func", "Fuzz", "fuzzer entry point")
 	flagO    = flag.String("o", "", "output file")
 
 	flagRace = flag.Bool("race", false, "enable data race detection")
