@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"text/template"
 
 	"golang.org/x/tools/go/packages"
@@ -62,15 +63,22 @@ func main() {
 		buildFlags = append(buildFlags, "-x")
 	}
 
+	if len(flag.Args()) != 1 {
+		log.Fatal("must specify exactly one package path")
+	}
+	path := flag.Args()[0]
+	if strings.Contains(path, "...") {
+		log.Fatal("package path must not contain ... wildcards")
+	}
 	pkgs, err := packages.Load(&packages.Config{
 		Mode:       packages.NeedName,
 		BuildFlags: buildFlags,
-	}, flag.Args()...)
+	}, path)
 	if err != nil {
 		log.Fatal("failed to load packages:", err)
 	}
 	if len(pkgs) != 1 {
-		log.Fatal("specified more than one package")
+		log.Fatal("package path matched multiple packages")
 	}
 	pkg := pkgs[0]
 
@@ -85,7 +93,7 @@ func main() {
 		Func    string
 	}
 	err = mainTmpl.Execute(mainFile, &Data{
-		PkgPath: pkg.PkgPath,
+		PkgPath: path,
 		Func:    *flagFunc,
 	})
 	if err != nil {
