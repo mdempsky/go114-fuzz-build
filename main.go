@@ -73,9 +73,12 @@ func main() {
 	pkgs, err := packages.Load(&packages.Config{
 		Mode:       packages.NeedName,
 		BuildFlags: buildFlags,
-	}, path)
+	}, "pattern="+path)
 	if err != nil {
 		log.Fatal("failed to load packages:", err)
+	}
+	if packages.PrintErrors(pkgs) != 0 {
+		os.Exit(1)
 	}
 	if len(pkgs) != 1 {
 		log.Fatal("package path matched multiple packages")
