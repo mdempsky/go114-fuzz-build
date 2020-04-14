@@ -41,6 +41,14 @@ func main() {
 		"-tags", tags,
 		"-trimpath",
 	}
+
+	suppress := []string{
+		"syscall", // https://github.com/google/oss-fuzz/issues/3639
+	}
+	for _, pkg := range suppress {
+		buildFlags = append(buildFlags, "-gcflags", pkg+"=-libfuzzer=0")
+	}
+
 	if *flagRace {
 		buildFlags = append(buildFlags, "-race")
 	}
