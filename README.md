@@ -20,6 +20,7 @@ $ git clone https://go.googlesource.com/go go-wip
 $ cd go-wip/src
 $ ./make.bash
 ```
+
 3. Build Kubernetes fuzz target with go114-fuzz-build and link against libFuzzer:
 
 ``` sh
