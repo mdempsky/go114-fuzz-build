@@ -85,6 +85,11 @@ func main() {
 	}
 	pkg := pkgs[0]
 
+	importPath := pkg.PkgPath
+	if strings.HasPrefix(importPath, "_/") {
+		importPath = path
+	}
+
 	mainFile, err := ioutil.TempFile(".", "main.*.go")
 	if err != nil {
 		log.Fatal("failed to create temporary file:", err)
@@ -96,7 +101,7 @@ func main() {
 		Func    string
 	}
 	err = mainTmpl.Execute(mainFile, &Data{
-		PkgPath: path,
+		PkgPath: importPath,
 		Func:    *flagFunc,
 	})
 	if err != nil {
